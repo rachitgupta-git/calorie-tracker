@@ -1,0 +1,194 @@
+/* Custom Global Variables for Dark Theme */
+:root {
+    --bg-dark: #121214;
+    --card-bg: #1a1a1e;
+    --accent-purple: #818cf8;
+    --accent-teal: #2dd4bf;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --border-color: #2a2a30;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* App Main Layout Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+}
+
+/* Left Sidebar Controls */
+header {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: fit-content;
+}
+
+h1 {
+    color: var(--accent-purple);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: -1rem;
+}
+
+.diet-goals, .upload-section, .today-stats {
+    background: #222227;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent-purple);
+}
+
+/* Upload Interface Buttons */
+.custom-file-upload {
+    display: block;
+    background: #2a2a30;
+    color: var(--text-main);
+    padding: 0.75rem;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px dashed var(--accent-purple);
+    transition: background 0.2s;
+}
+
+.custom-file-upload:hover {
+    background: #33333b;
+}
+
+#file-chosen {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--accent-purple);
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* Live Dynamic Progress Bars */
+.stat-bar {
+    margin-bottom: 1rem;
+}
+
+.stat-bar label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.progress-bg {
+    background: #2a2a30;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: var(--accent-purple);
+    width: 0%; /* Will be updated dynamically via Javascript */
+    height: 100%;
+    transition: width 0.4s ease;
+}
+
+.progress-fill.prot-color {
+    background: var(--accent-teal);
+}
+
+/* Right Main Dashboard Panel (Calendar) */
+main {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+#month-year-display {
+    font-weight: 600;
+    color: var(--accent-teal);
+}
+
+/* 7 Column Dynamic Grid Layout for Calendar */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.75rem;
+}
+
+/* Individual Day Block UI Design */
+.calendar-day {
+    background: #222227;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    min-height: 90px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.day-number {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.day-stats {
+    font-size: 0.75rem;
+    text-align: right;
+}
+
+.day-cal { color: var(--accent-purple); }
+.day-prot { color: var(--accent-teal); }

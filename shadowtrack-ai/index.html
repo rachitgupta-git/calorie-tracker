@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowTrack AI — Calorie & Protein Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ShadowTrack AI</h1>
+            <p class="subtitle">Precision Nutrition Tracking</p>
+            
+            <div class="diet-goals">
+                <h3>Daily Target</h3>
+                <p>Calories: <span id="target-cal">2000</span> kcal</p>
+                <p>Protein: <span id="target-prot">130</span> g</p>
+            </div>
+
+            <div class="upload-section">
+                <h3>Track New Meal</h3>
+                <label for="imageUpload" class="custom-file-upload">
+                    📸 Click/Upload Meal Photo
+                </label>
+                <input type="file" id="imageUpload" accept="image/*" style="display:none;">
+                <div id="file-chosen">No file chosen</div>
+                <button id="analyzeBtn" class="btn-primary">Analyze with Gemini</button>
+            </div>
+
+            <div class="today-stats">
+                <h3>Today's Progress</h3>
+                <div class="stat-bar">
+                    <label>Calories: <span id="current-cal">0</span> / 2000 kcal</label>
+                    <div class="progress-bg"><div id="cal-progress" class="progress-fill"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <label>Protein: <span id="current-prot">0</span> / 130 g</label>
+                    <div class="progress-bg"><div id="prot-progress" class="progress-fill prot-color"></div></div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="calendar-header">
+                <h2>Nutrition Calendar Record</h2>
+                <span id="month-year-display">June 2026</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
