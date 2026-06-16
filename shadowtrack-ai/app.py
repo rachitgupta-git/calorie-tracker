@@ -1,9 +1,8 @@
 import os
 import io
+from typing import List
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
 from google import genai
 from google.genai import types
 from PIL import Image
@@ -11,6 +10,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+# Secure absolute CORS integration configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -31,23 +31,35 @@ class MealAnalysis(BaseModel):
     protein_grams: int
 
 @app.post("/analyze-meal")
-async def analyze_meal(file: UploadFile = File(...)):
+async def analyze_meal(files: List[UploadFile] = File(...)):
     if not os.environ.get("GEMINI_API_KEY"):
-        raise HTTPException(status_code=500, detail="GEMINI_API_KEY missing.")
+        raise HTTPException(status_code=500, detail="GEMINI_API_KEY environment configuration missing.")
 
     try:
-        image_bytes = await file.read()
-        image = Image.open(io.BytesIO(image_bytes))
+        image_parts = []
+        for file in files:
+            file_bytes = await file.read()
+            if not file_bytes:
+                continue
+            image = Image.open(io.BytesIO(file_bytes))
+            image_parts.append(image)
         
+        if not image_parts:
+            raise HTTPException(status_code=400, detail="Empty payload checklist or no images received.")
+            
         prompt = """
-        Analyze this image of a meal. Estimate the food items present, 
-        their total calories, and total protein content in grams. 
+        Analyze all the uploaded meal images together. 
+        Combine the food items present across ALL images, calculate the aggregate total calories, 
+        and aggregate total protein content in grams for the entire combination of food shown.
         Be realistic and precise based on standard nutritional data.
         """
         
+        # Multimodal pipeline array assembly matching google-genai specs
+        contents = image_parts + [prompt]
+        
         response = client.models.generate_content(
             model='gemini-2.5-flash',
-            contents=[image, prompt],
+            contents=contents,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
                 response_schema=MealAnalysis,
@@ -56,13 +68,5 @@ async def analyze_meal(file: UploadFile = File(...)):
         return {"status": "success", "data": response.text}
         
     except Exception as e:
+        print(f"Operational Exception Caught: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
-# --- YEH NAYA CODE ADD KIYA HAI ---
-# Server automatic index.html aur static files ko standard path se load karega
-@app.get("/", response_class=HTMLResponse)
-async def read_index():
-    with open("index.html", "r", encoding="utf-8") as f:
-        return f.read()
-
-app.mount("/", StaticFiles(directory="."), name="static")
